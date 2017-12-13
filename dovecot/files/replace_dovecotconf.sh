@@ -2,17 +2,17 @@
 # set up env
 set -e
 
-CONF="/etc/squid/squid.conf"
+CONF="/etc/dovecot/dovecot.conf"
 CONFDATA="$(cat $CONF)"
 KEYAWK="/usr/bin/awk -f /usr/local/bin/key.awk"
 VALUEAWK="/usr/bin/awk -f /usr/local/bin/value.awk"
 
 
-# get all the squidvars
-SQUIDENV="$(env | grep SQUID)"
+# get all the dovecotvars
+DOVECOTENV="$(env | grep DOVECOT)"
 
-# for each squidvar, replace them in the file
-for i in $SQUIDENV; do
+# for each dovecotvar, replace them in the file
+for i in $DOVECOTENV; do
   CONFDATA="$(echo -e "$CONFDATA" | sed s/"$(echo $i | $KEYAWK)"/"$(echo $i | $VALUEAWK)"/g )"
 done
 
