@@ -42,7 +42,7 @@ LABEL maintainer=dansta
 
 # update and install packages
 RUN apt-get update
-RUN apt-get install -y dovecot
+RUN apt-get install -y dovecot-imapd dovecot-pop3d
 RUN apt-get install -y rsyslog
 ADD files/etc/dovecot.conf /etc/dovecot/dovecot.conf
 ADD files/replace_dovecotconf.sh /usr/local/bin/replace_dovecotconf
