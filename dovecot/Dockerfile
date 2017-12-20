@@ -44,10 +44,14 @@ LABEL maintainer=dansta
 RUN apt-get update
 RUN apt-get install -y dovecot-imapd dovecot-pop3d
 RUN apt-get install -y rsyslog
+RUN apt-get install -y python3
 ADD files/etc/dovecot.conf /etc/dovecot/dovecot.conf
 ADD files/replace.py /usr/local/bin/replace_conf
 RUN chmod +rx /usr/local/bin/replace_conf
 RUN /usr/local/bin/replace_conf
+
+# remove python3 again because it is not needed for runtime
+RUN apt-get remove -y python3
 
 # document port usage for docker in case you are going to use it as a service
 EXPOSE ${DOVECOT_PORT}/tcp
