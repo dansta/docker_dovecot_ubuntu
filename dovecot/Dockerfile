@@ -45,11 +45,9 @@ RUN apt-get update
 RUN apt-get install -y dovecot-imapd dovecot-pop3d
 RUN apt-get install -y rsyslog
 ADD files/etc/dovecot.conf /etc/dovecot/dovecot.conf
-ADD files/replace_dovecotconf.sh /usr/local/bin/replace_dovecotconf
-ADD files/value.awk /usr/local/bin/value.awk
-ADD files/key.awk /usr/local/bin/key.awk
-RUN chmod +rx /usr/local/bin/replace_dovecotconf
-RUN /usr/local/bin/replace_dovecotconf
+ADD files/replace.py /usr/local/bin/replace_conf
+RUN chmod +rx /usr/local/bin/replace_conf
+RUN /usr/local/bin/replace_conf
 
 # document port usage for docker in case you are going to use it as a service
 EXPOSE ${DOVECOT_PORT}/tcp
