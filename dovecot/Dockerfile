@@ -48,7 +48,7 @@ RUN apt-get install -y python3
 ADD files/etc/dovecot.conf /etc/dovecot/dovecot.conf
 ADD files/replace.py /usr/local/bin/replace_conf
 RUN chmod +rx /usr/local/bin/replace_conf
-RUN /usr/local/bin/replace_conf
+RUN /usr/local/bin/replace_conf /etc/dovecot/dovecot.conf DOVECOT
 
 # remove python3 again because it is not needed for runtime
 RUN apt-get remove -y python3
