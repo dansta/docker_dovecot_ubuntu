@@ -1,4 +1,4 @@
-FROM ubuntu:latest # we base this on ubuntu 
+FROM ubuntu:latest
 # dovecot imap/pop3-server
 
 # set env. replace right most column with values specific to your environment
