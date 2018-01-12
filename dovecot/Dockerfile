@@ -85,7 +85,7 @@ RUN apt-get remove -y python3
 EXPOSE ${DOVECOT_PORT}/tcp
 
 VOLUME /usr/share/example/bk/ \
-       /var/log/dovecot \
+       /var/log/dovecot/ \
        /external_mount/
 
 # test dovecot for build, run in foreground
