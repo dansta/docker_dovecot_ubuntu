@@ -94,7 +94,8 @@ VOLUME /usr/share/example/bk/ \
 HEALTHCHECK --interval=15s --timeout=3s CMD doveadm \
                                             auth test \
                                             -x service=imap \
-                                            -x rip=localhost$lport=${DOVECOT_PORT} \
+                                            -x rip=localhost \
+                                            -x lport=${DOVECOT_PORT} \
                                             ${DOVECOT_SINGLE_USER}
 
 # test dovecot for build, run in foreground
