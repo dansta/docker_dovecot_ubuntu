@@ -2,6 +2,8 @@ FROM ubuntu:latest
 # dovecot imap/pop3-server
 
 # set env. replace right most column with values specific to your environment
+ARG DOVECOT_SINGLE_USER
+ENV DOVECOT_SINGLE_USER ${DOVECOT_SINGLE_USER:-johndoe}
 ARG DOVECOT_FQDN
 ENV DOVECOT_FQDN ${DOVECOT_FQDN:-example.com}
 ARG DOVECOT_BANLIST
@@ -31,7 +33,7 @@ ENV DOVECOT_GREET_MESSAGE ${DOVECOT_GREET_MESSAGE:-"Hi!"}
 ARG DOVECOT_TRUSTED_NETWORKS
 ENV DOVECOT_TRUSTED_NETWORKS ${DOVECOT_TRUSTED_NETWORKS:-127.0.0.0/24}
 ARG DOVECOT_MAIL_LOCATION
-ENV DOVECOT_MAIL_LOCATION ${DOVECOT_MAIL_LOCATION:-maildir:/external_mount/${SINGLE_USER}/Maildir}
+ENV DOVECOT_MAIL_LOCATION ${DOVECOT_MAIL_LOCATION:-maildir:/external_mount/${DOVECOT_SINGLE_USER}/Maildir}
 ARG DOVECOT_MAIL_UID
 ENV DOVECOT_MAIL_UID ${DOVECOT_MAIL_UID:-500}
 ARG DOVECOT_MAIL_GID
@@ -89,7 +91,7 @@ VOLUME /usr/share/example/bk/ \
        /external_mount/
 
 # Healthcheck, tests login every 15 seconds with dummy user
-HEALTHCHECK --interval=15s --timeout=3s CMD doveadm auth test -x service=imap -x rip=localhost$lport=${DOVECOT_PORT} johndoe
+HEALTHCHECK --interval=15s --timeout=3s CMD doveadm auth test -x service=imap -x rip=localhost$lport=${DOVECOT_PORT} ${DOVECOT_SINGLE_USER}
 
 # test dovecot for build, run in foreground
 CMD /usr/sbin/dovecot
