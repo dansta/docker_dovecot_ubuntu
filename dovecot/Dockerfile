@@ -91,7 +91,11 @@ VOLUME /usr/share/example/bk/ \
        /external_mount/
 
 # Healthcheck, tests login every 15 seconds with dummy user
-HEALTHCHECK --interval=15s --timeout=3s CMD doveadm auth test -x service=imap -x rip=localhost$lport=${DOVECOT_PORT} ${DOVECOT_SINGLE_USER}
+HEALTHCHECK --interval=15s --timeout=3s CMD doveadm \
+                                            auth test \
+                                            -x service=imap \
+                                            -x rip=localhost$lport=${DOVECOT_PORT} \
+                                            ${DOVECOT_SINGLE_USER}
 
 # test dovecot for build, run in foreground
 CMD /usr/sbin/dovecot
