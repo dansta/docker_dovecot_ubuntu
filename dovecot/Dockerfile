@@ -70,8 +70,9 @@ LABEL maintainer=dansta
 
 # update and install packages
 RUN apt-get update
-RUN apt-get install -y dovecot-imapd dovecot-pop3d
-RUN apt-get install -y python3
+RUN apt-get install -y dovecot-imapd \
+                       dovecot-pop3d \
+                       python3
 ADD files/etc/dovecot.conf /etc/dovecot/dovecot.conf
 ADD files/replace.py /usr/local/bin/replace_conf
 RUN chmod +rx /usr/local/bin/replace_conf
@@ -82,6 +83,10 @@ RUN apt-get remove -y python3
 
 # document port usage for docker in case you are going to use it as a service
 EXPOSE ${DOVECOT_PORT}/tcp
+
+VOLUME /usr/share/example/bk/ \
+       /external_mount/ \
+       /var/dovecot/mail \
 
 # test dovecot for build, run in foreground
 CMD /usr/sbin/dovecot
