@@ -86,7 +86,7 @@ EXPOSE ${DOVECOT_PORT}/tcp
 
 VOLUME /usr/share/example/bk/ \
        /external_mount/ \
-       /var/dovecot/mail \
+       /var/dovecot/mail
 
 # test dovecot for build, run in foreground
 CMD /usr/sbin/dovecot
