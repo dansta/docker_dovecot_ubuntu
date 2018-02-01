@@ -15,6 +15,8 @@ docker network create \
 
 # Create volume for dovecot
 docker volume create dovecot
+docker volume create dynamic
+docker volume create home
 
 # Create service
 docker service create \
@@ -24,8 +26,9 @@ docker service create \
             --dns 127.0.0.1 \
             --network dovecot \
             --mount source=dovecot,target=/var/log/dovecot \
-            --mount source=dovecot,target=/usr/share/example/bk/ \
-            --mount source=dovecot,target=/external_mount/ \
+            --mount source=dovecot,target=/usr/share/example/bk/,readonly \
+            --mount source=dynamic,target=/dynamic/ \
+            --mount source=home,target=/home/ \
             --name "dovecot" \
             --publish published=993,target=993,protocol=tcp \
             dovecot:0.0.1
