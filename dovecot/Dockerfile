@@ -87,10 +87,16 @@ RUN chmod +rx /usr/local/bin/replace_conf
 RUN /usr/local/bin/replace_conf /etc/dovecot/dovecot.conf DOVECOT
 
 # remove python3 again because it is not needed for runtime
-RUN apt-get remove -y python3
+RUN apt-get remove -y python3 && \
+    apt-get -y autoremove 
+
 
 # document port usage for docker in case you are going to use it as a service
-EXPOSE ${DOVECOT_PORT}/tcp
+EXPOSE ${DOVECOT_IMAP_PLAIN_PORT}/tcp \
+       ${DOVECOT_IMAP_SSL_PORT}/tcp \
+       ${DOVECOT_POP3_PLAIN_PORT}/tcp \
+       ${DOVECOT_POP3_SSL_PORT}/tcp
+
 
 VOLUME /usr/share/example/bk/ \
        /var/log/dovecot/ \
@@ -98,11 +104,10 @@ VOLUME /usr/share/example/bk/ \
        /dynamic/
 
 # Healthcheck, tests login every 15 seconds with dummy user
-HEALTHCHECK --interval=15s --timeout=3s CMD doveadm \
-                                            auth test \
+HEALTHCHECK --interval=15s --timeout=3s CMD doveadm auth test \
                                             -x service=imap \
                                             -x rip=localhost \
-                                            -x lport=${DOVECOT_PORT} \
+                                            -x lport=${DOVECOT_IMAP_PLAIN_PORT} \
                                             ${DOVECOT_SINGLE_USER}
 
 # test dovecot for build, run in foreground
