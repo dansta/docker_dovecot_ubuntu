@@ -23,7 +23,8 @@ docker service create \
             --mode global \
             --update-delay 60s \
             --update-parallelism 1 \
-            --dns 127.0.0.1 \
+            --dns 8.8.8.8 \
+            --dns 9.9.9.9 \
             --network dovecot \
             --mount source=dovecot,target=/var/log/dovecot \
             --mount source=dovecot,target=/usr/share/example/bk/,readonly \
